@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "paths": {
+      "#commands/*": [
+        "./src/commands/*"
+      ],
+      "#domain/*": [
+        "./src/domain/*"
+      ],
+      "#errors": [
+        "./src/errors.ts"
+      ],
+      "#result": [
+        "./src/result.ts"
+      ],
+      "#services/*": [
+        "./src/services/*"
+      ]
+    },
+    "module": "nodenext",
+    "target": "esnext",
+    "types": [
+      "node"
+    ],
+    "lib": [
+      "esnext"
+    ],
+    "sourceMap": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  }
+}
