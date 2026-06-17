@@ -1,5 +1,9 @@
 import { getToken } from "#auth";
-import { parseEventKinds, parseEventLimit } from "#domain/event.js";
+import {
+    type EventVisibility,
+    parseEventKinds,
+    parseEventLimit,
+} from "#domain/event.js";
 import { validateUsername } from "#domain/username.js";
 import { CliValidationError } from "#errors";
 import { createGithubService } from "#services/github/index.js";
@@ -42,6 +46,10 @@ export async function handleRun(username: string, options: RunOptions) {
     }
     const validatedEventKinds = eventKindsResult.value;
 
+    const eventVisibility: EventVisibility = options.includePrivate
+        ? "include_private"
+        : "public_only";
+
     const token = await getToken();
 
     const service = createGithubService({ token });
@@ -50,6 +58,7 @@ export async function handleRun(username: string, options: RunOptions) {
         validatedUsername,
         validatedEventLimit,
         validatedEventKinds,
+        eventVisibility,
     );
 
     if (events.length > 0) {
