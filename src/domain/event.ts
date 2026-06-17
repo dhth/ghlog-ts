@@ -157,6 +157,33 @@ export const eventKinds = [
 
 export type EventKind = (typeof eventKinds)[number];
 
-export function getEventKind(event: Event): EventKind {
-    return event.payload.kind;
+export function parseEventKinds(
+    values: string[],
+): Result<EventKind[], string[]> {
+    const valid: EventKind[] = [];
+    const invalid: string[] = [];
+
+    for (const value of values) {
+        if (isValidEventKind(value)) {
+            valid.push(value);
+        } else {
+            invalid.push(value);
+        }
+    }
+
+    if (invalid.length > 0) {
+        return {
+            tag: "err",
+            error: invalid,
+        };
+    }
+
+    return {
+        tag: "ok",
+        value: valid,
+    };
+}
+
+function isValidEventKind(value: string): value is EventKind {
+    return eventKinds.some((eventKind) => eventKind === value);
 }

@@ -1,4 +1,4 @@
-import type { Event, EventLimit } from "#domain/event.js";
+import type { Event, EventKind, EventLimit } from "#domain/event.js";
 import type { Username } from "#domain/username.js";
 import { decodeEvents } from "./decode.js";
 
@@ -12,7 +12,11 @@ export type GithubServiceDependencies = {
 };
 
 export type GithubService = {
-    getEventsForUser(username: Username, limit: EventLimit): Promise<Event[]>;
+    getEventsForUser(
+        username: Username,
+        limit: EventLimit,
+        eventKinds: EventKind[],
+    ): Promise<Event[]>;
 };
 
 export function createGithubService({
@@ -87,16 +91,29 @@ export function createGithubService({
         async getEventsForUser(
             username: Username,
             limit: EventLimit,
+            eventKinds: readonly EventKind[],
         ): Promise<Event[]> {
+            const allowedEventKinds = new Set(eventKinds);
+            const shouldFilter = allowedEventKinds.size > 0;
+
             const collectedEvents: Event[] = [];
             let page = 1;
 
             while (true) {
                 const responsePage = await fetchEvents(username, page);
-                collectedEvents.push(...responsePage.events);
+                for (const event of responsePage.events) {
+                    if (
+                        shouldFilter &&
+                        !allowedEventKinds.has(event.payload.kind)
+                    ) {
+                        continue;
+                    }
 
-                if (collectedEvents.length >= limit) {
-                    return collectedEvents.slice(0, limit);
+                    collectedEvents.push(event);
+
+                    if (collectedEvents.length >= limit) {
+                        return collectedEvents;
+                    }
                 }
 
                 if (!responsePage.hasNextPage) {
