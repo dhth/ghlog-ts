@@ -144,6 +144,8 @@ export type Event = {
     created_at: string;
 };
 
+export type EventVisibility = "public_only" | "include_private";
+
 export const eventKinds = [
     "create",
     "delete",

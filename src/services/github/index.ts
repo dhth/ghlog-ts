@@ -1,4 +1,9 @@
-import type { Event, EventKind, EventLimit } from "#domain/event.js";
+import type {
+    Event,
+    EventKind,
+    EventLimit,
+    EventVisibility,
+} from "#domain/event.js";
 import type { Username } from "#domain/username.js";
 import { decodeEvents } from "./decode.js";
 
@@ -16,6 +21,7 @@ export type GithubService = {
         username: Username,
         limit: EventLimit,
         eventKinds: EventKind[],
+        eventVisibility: EventVisibility,
     ): Promise<Event[]>;
 };
 
@@ -26,10 +32,11 @@ export function createGithubService({
     async function fetchEvents(
         username: Username,
         page: number,
+        eventVisibility: EventVisibility,
     ): Promise<GithubPage> {
-        const url = new URL(
-            `${GITHUB_API_BASE}/users/${username}/events/public`,
-        );
+        const path =
+            eventVisibility === "public_only" ? "events/public" : "events";
+        const url = new URL(`${GITHUB_API_BASE}/users/${username}/${path}`);
         url.searchParams.set("per_page", String(GITHUB_API_MAX_PER_PAGE));
         url.searchParams.set("page", String(page));
 
@@ -92,6 +99,7 @@ export function createGithubService({
             username: Username,
             limit: EventLimit,
             eventKinds: readonly EventKind[],
+            eventVisibility: EventVisibility,
         ): Promise<Event[]> {
             const allowedEventKinds = new Set(eventKinds);
             const shouldFilter = allowedEventKinds.size > 0;
@@ -100,7 +108,11 @@ export function createGithubService({
             let page = 1;
 
             while (true) {
-                const responsePage = await fetchEvents(username, page);
+                const responsePage = await fetchEvents(
+                    username,
+                    page,
+                    eventVisibility,
+                );
                 for (const event of responsePage.events) {
                     if (
                         shouldFilter &&
