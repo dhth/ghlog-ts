@@ -1,3 +1,4 @@
+import { getToken } from "#auth";
 import { parseEventLimit } from "#domain/event.js";
 import { validateUsername } from "#domain/username.js";
 import { CliValidationError } from "#errors";
@@ -26,10 +27,7 @@ export async function handleRun(username: string, options: RunOptions) {
     }
     const validatedEventLimit = eventLimitResult.value;
 
-    const token = process.env.GHLOG_TOKEN;
-    if (token === undefined || token === "") {
-        throw new Error("GHLOG_TOKEN is not set");
-    }
+    const token = await getToken();
 
     const service = createGithubService({ token });
 

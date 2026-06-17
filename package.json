@@ -6,6 +6,7 @@
     "ghlog-ts": "./dist/index.js"
   },
   "imports": {
+    "#auth": "./dist/auth.js",
     "#commands/*": "./dist/commands/*.js",
     "#domain/*": "./dist/domain/*.js",
     "#errors": "./dist/errors.js",

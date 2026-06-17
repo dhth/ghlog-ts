@@ -3,6 +3,9 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
+      "#auth": [
+        "./src/auth.ts"
+      ],
       "#commands/*": [
         "./src/commands/*"
       ],
