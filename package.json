@@ -14,13 +14,14 @@
     "#services/*": "./dist/services/*.js"
   },
   "scripts": {
-    "build": "tsc",
-    "check": "tsc --noEmit",
-    "ci": "biome ci ./src",
+    "build": "tsc -p tsconfig.build.json",
+    "check": "tsc -p tsconfig.json",
+    "ci": "biome ci src vitest.config.ts",
     "dev": "tsx src/index.ts",
-    "format": "biome format --write ./src",
-    "lint:fix": "biome check --write ./src",
-    "lint": "biome check ./src"
+    "format": "biome format --write src vitest.config.ts",
+    "lint:fix": "biome check --write src vitest.config.ts",
+    "lint": "biome check src vitest.config.ts",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +31,8 @@
     "@biomejs/biome": "2.4.16",
     "@types/node": "^25.9.2",
     "tsx": "^4.22.4",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
   },
   "dependencies": {
     "commander": "^15.0.0",

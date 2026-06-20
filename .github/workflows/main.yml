@@ -28,6 +28,7 @@ jobs:
               - "package-lock.json"
               - "package.json"
               - "tsconfig.json"
+              - "vitest.config.ts"
               - ".github/workflows/main.yml"
             workflows:
               - ".github/workflows/**/*.yml"
@@ -49,6 +50,8 @@ jobs:
         run: npm ci
       - name: Run checks
         run: npm run ci
+      - name: Run tests
+        run: npm run test
       - name: Build
         run: npm run build
 

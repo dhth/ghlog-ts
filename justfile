@@ -7,6 +7,7 @@ alias f := fmt
 alias l := lint
 alias lf := lint-fix
 alias r := run
+alias t := test
 
 @default:
     just --choose
@@ -33,3 +34,6 @@ lint-fix:
 
 run *ARGS:
     npm run dev -- {{ ARGS }}
+
+test *ARGS:
+    npm run test -- {{ ARGS }}
