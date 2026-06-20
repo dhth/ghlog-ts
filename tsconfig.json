@@ -1,7 +1,11 @@
 {
+  "include": [
+    "src/**/*.ts",
+    "vitest.config.ts"
+  ],
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
+    "rootDir": ".",
+    "noEmit": true,
     "paths": {
       "#auth": [
         "./src/auth.ts"
