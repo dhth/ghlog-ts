@@ -9,6 +9,7 @@ import { CliValidationError } from "../errors.js";
 import { createGithubService } from "../services/github/index.js";
 
 type RunOptions = {
+    dryRun: boolean;
     eventType: string[];
     limit: string;
     outputFormat: string;
@@ -49,6 +50,17 @@ export async function handleRun(username: string, options: RunOptions) {
     const eventVisibility: EventVisibility = options.includePrivate
         ? "include_private"
         : "public_only";
+
+    if (options.dryRun) {
+        console.log(`command: run
+
+- username       : ${validatedUsername}
+- event types    : ${validatedEventKinds}
+- event limit    : ${validatedEventLimit}
+- output format  : ${options.outputFormat}
+- include private: ${options.includePrivate}`);
+        return;
+    }
 
     const token = await getToken();
 
