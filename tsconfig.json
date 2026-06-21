@@ -6,27 +6,8 @@
   "compilerOptions": {
     "rootDir": ".",
     "noEmit": true,
-    "paths": {
-      "#auth": [
-        "./src/auth.ts"
-      ],
-      "#commands/*": [
-        "./src/commands/*"
-      ],
-      "#domain/*": [
-        "./src/domain/*"
-      ],
-      "#errors": [
-        "./src/errors.ts"
-      ],
-      "#result": [
-        "./src/result.ts"
-      ],
-      "#services/*": [
-        "./src/services/*"
-      ]
-    },
     "module": "nodenext",
+    "moduleResolution": "nodenext",
     "target": "esnext",
     "types": [
       "node"

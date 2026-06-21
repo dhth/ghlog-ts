@@ -1,6 +1,6 @@
 import { Command, Option } from "commander";
-import { handleRun } from "#commands/run.js";
-import { eventKinds } from "#domain/event.js";
+import { handleRun } from "./commands/run.js";
+import { eventKinds } from "./domain/event.js";
 
 export function buildCli(): Command {
     const program = new Command();

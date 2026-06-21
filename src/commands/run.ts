@@ -1,12 +1,12 @@
-import { getToken } from "#auth";
+import { getToken } from "../auth.js";
 import {
     type EventVisibility,
     parseEventKinds,
     parseEventLimit,
-} from "#domain/event.js";
-import { validateUsername } from "#domain/username.js";
-import { CliValidationError } from "#errors";
-import { createGithubService } from "#services/github/index.js";
+} from "../domain/event.js";
+import { validateUsername } from "../domain/username.js";
+import { CliValidationError } from "../errors.js";
+import { createGithubService } from "../services/github/index.js";
 
 type RunOptions = {
     eventType: string[];
