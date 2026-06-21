@@ -10,10 +10,11 @@
     "check": "tsc -p tsconfig.json",
     "ci": "biome ci src vitest.config.ts",
     "dev": "tsx src/index.ts",
-    "format": "biome format --write src vitest.config.ts",
-    "lint:fix": "biome check --write src vitest.config.ts",
-    "lint": "biome check src vitest.config.ts",
-    "test": "vitest run"
+    "format": "biome format --write src test vitest.*.ts",
+    "lint:fix": "biome check --write src test vitest.*.ts",
+    "lint": "biome check src test vitest.*.ts",
+    "test": "vitest run",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts"
   },
   "keywords": [],
   "author": "",

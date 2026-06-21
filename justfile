@@ -8,6 +8,7 @@ alias l := lint
 alias lf := lint-fix
 alias r := run
 alias t := test
+alias te := test-e2e
 
 @default:
     just --choose
@@ -37,3 +38,6 @@ run *ARGS:
 
 test *ARGS:
     npm run test -- {{ ARGS }}
+
+test-e2e *ARGS:
+    npm run test:e2e -- {{ ARGS }}
