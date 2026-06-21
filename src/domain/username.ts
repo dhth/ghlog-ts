@@ -1,4 +1,4 @@
-import type { Result } from "#result";
+import type { Result } from "../result.js";
 
 export type Username = string & { readonly __brand: "Username" };
 

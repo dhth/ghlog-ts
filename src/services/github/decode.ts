@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Event, EventPayload } from "#domain/event.js";
+import type { Event, EventPayload } from "../../domain/event.js";
 
 export function decodeEvents(input: unknown): Event[] {
     return parseRawEvents(input)

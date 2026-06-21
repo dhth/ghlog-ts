@@ -3,8 +3,8 @@ import type {
     EventKind,
     EventLimit,
     EventVisibility,
-} from "#domain/event.js";
-import type { Username } from "#domain/username.js";
+} from "../../domain/event.js";
+import type { Username } from "../../domain/username.js";
 import { decodeEvents } from "./decode.js";
 
 const GITHUB_API_BASE = "https://api.github.com";
