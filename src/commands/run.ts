@@ -9,8 +9,9 @@ import { CliValidationError } from "../errors.js";
 import { createGithubService } from "../services/github/index.js";
 
 type RunOptions = {
+    dryRun: boolean;
     eventType: string[];
-    limit: string;
+    limit: unknown;
     outputFormat: string;
     includePrivate: boolean;
 };
@@ -19,7 +20,7 @@ export async function handleRun(username: string, options: RunOptions) {
     const usernameResult = validateUsername(username);
     if (usernameResult.tag === "err") {
         throw new CliValidationError(
-            `invalid username provided (\`${username}\`): ${usernameResult.error}`,
+            `invalid username provided ('${username}'): ${usernameResult.error}`,
         );
     }
     const validatedUsername = usernameResult.value;
@@ -27,7 +28,7 @@ export async function handleRun(username: string, options: RunOptions) {
     const eventLimitResult = parseEventLimit(options.limit);
     if (eventLimitResult.tag === "err") {
         throw new CliValidationError(
-            `invalid event limit provided (\`${options.limit}\`): ${eventLimitResult.error}`,
+            `invalid event limit provided ('${options.limit}'): ${eventLimitResult.error}`,
         );
     }
     const validatedEventLimit = eventLimitResult.value;
@@ -36,11 +37,11 @@ export async function handleRun(username: string, options: RunOptions) {
     if (eventKindsResult.tag === "err") {
         if (eventKindsResult.error.length === 1) {
             throw new CliValidationError(
-                `invalid event kind provided: ${eventKindsResult.error[0]}`,
+                `invalid event type provided: '${eventKindsResult.error[0]}'`,
             );
         } else {
             throw new CliValidationError(
-                `invalid event kinds provided: [${eventKindsResult.error.join(", ")}]`,
+                `invalid event types provided: [${eventKindsResult.error.join(", ")}]`,
             );
         }
     }
@@ -49,6 +50,16 @@ export async function handleRun(username: string, options: RunOptions) {
     const eventVisibility: EventVisibility = options.includePrivate
         ? "include_private"
         : "public_only";
+
+    if (options.dryRun) {
+        console.log(`command: run
+
+- username       : ${validatedUsername}
+- event types    : ${validatedEventKinds.length > 0 ? validatedEventKinds.join(", ") : "<not-provided>"}
+- event limit    : ${validatedEventLimit}
+- include private: ${options.includePrivate}`);
+        return;
+    }
 
     const token = await getToken();
 

@@ -22,6 +22,12 @@ function buildRunCommand(): Command {
         .argument("<username>", "GitHub username to run for")
         .addOption(
             new Option(
+                "-d, --dry-run",
+                "Print debug information without doing anything",
+            ).default(false),
+        )
+        .addOption(
+            new Option(
                 "-e, --event-type <event-type>",
                 `Filter by event type; repeat to include multiple types. Limit applies after filtering. [possible values: ${eventKinds.join(", ")}]`,
             )
