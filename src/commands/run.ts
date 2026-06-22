@@ -20,7 +20,7 @@ export async function handleRun(username: string, options: RunOptions) {
     const usernameResult = validateUsername(username);
     if (usernameResult.tag === "err") {
         throw new CliValidationError(
-            `invalid username provided (\`${username}\`): ${usernameResult.error}`,
+            `invalid username provided ('${username}'): ${usernameResult.error}`,
         );
     }
     const validatedUsername = usernameResult.value;
@@ -28,7 +28,7 @@ export async function handleRun(username: string, options: RunOptions) {
     const eventLimitResult = parseEventLimit(options.limit);
     if (eventLimitResult.tag === "err") {
         throw new CliValidationError(
-            `invalid event limit provided (\`${options.limit}\`): ${eventLimitResult.error}`,
+            `invalid event limit provided ('${options.limit}'): ${eventLimitResult.error}`,
         );
     }
     const validatedEventLimit = eventLimitResult.value;
@@ -37,11 +37,11 @@ export async function handleRun(username: string, options: RunOptions) {
     if (eventKindsResult.tag === "err") {
         if (eventKindsResult.error.length === 1) {
             throw new CliValidationError(
-                `invalid event kind provided: ${eventKindsResult.error[0]}`,
+                `invalid event type provided: '${eventKindsResult.error[0]}'`,
             );
         } else {
             throw new CliValidationError(
-                `invalid event kinds provided: [${eventKindsResult.error.join(", ")}]`,
+                `invalid event types provided: [${eventKindsResult.error.join(", ")}]`,
             );
         }
     }
@@ -55,9 +55,8 @@ export async function handleRun(username: string, options: RunOptions) {
         console.log(`command: run
 
 - username       : ${validatedUsername}
-- event types    : ${validatedEventKinds}
+- event types    : ${validatedEventKinds.length > 0 ? validatedEventKinds.join(", ") : "<not-provided>"}
 - event limit    : ${validatedEventLimit}
-- output format  : ${options.outputFormat}
 - include private: ${options.includePrivate}`);
         return;
     }

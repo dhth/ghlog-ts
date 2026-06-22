@@ -9,6 +9,7 @@ alias lf := lint-fix
 alias r := run
 alias t := test
 alias te := test-e2e
+alias us := update-snapshots
 
 @default:
     just --choose
@@ -41,3 +42,6 @@ test *ARGS:
 
 test-e2e *ARGS:
     npm run test:e2e -- {{ ARGS }}
+
+update-snapshots:
+    npm run test:e2e -- -u
