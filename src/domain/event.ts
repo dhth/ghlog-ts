@@ -2,7 +2,7 @@ import type { Result } from "../result.js";
 
 export type EventLimit = number & { readonly __brand: "EventLimit" };
 
-export function parseEventLimit(value: string): Result<EventLimit, string> {
+export function parseEventLimit(value: unknown): Result<EventLimit, string> {
     const maybeNumber = Number(value);
 
     if (!Number.isFinite(maybeNumber)) {

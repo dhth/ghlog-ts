@@ -11,7 +11,7 @@ import { createGithubService } from "../services/github/index.js";
 type RunOptions = {
     dryRun: boolean;
     eventType: string[];
-    limit: string;
+    limit: unknown;
     outputFormat: string;
     includePrivate: boolean;
 };

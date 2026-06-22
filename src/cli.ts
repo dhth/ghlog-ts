@@ -44,7 +44,7 @@ function buildRunCommand(): Command {
             new Option(
                 "-l, --limit <number>",
                 "Maximum number of events to show",
-            ).default("20"),
+            ).default(20),
         )
         .addOption(
             new Option("-f, --output-format <format>", "Output format to use")
