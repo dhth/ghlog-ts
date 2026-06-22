@@ -9,7 +9,10 @@ export type CmdResult = {
     stderr: string;
 };
 
-type ExecFileError = Error & {
+// Subset of execFile failures where the child process exited normally with a
+// non-zero numeric exit code. Signal termination and spawn failures are
+// intentionally excluded and handled by throwing.
+type NonZeroExitError = Error & {
     code: number;
     stdout?: string;
     stderr?: string;
@@ -45,7 +48,7 @@ async function runCommand(
             stderr,
         };
     } catch (error) {
-        if (isExecFileError(error)) {
+        if (isNonZeroExitError(error)) {
             return {
                 exitCode: error.code,
                 stdout: error.stdout ?? "",
@@ -66,7 +69,7 @@ function buildTestEnv(): NodeJS.ProcessEnv {
     return env;
 }
 
-function isExecFileError(error: unknown): error is ExecFileError {
+function isNonZeroExitError(error: unknown): error is NonZeroExitError {
     if (!(error instanceof Error)) {
         return false;
     }
