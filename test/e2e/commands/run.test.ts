@@ -14,7 +14,8 @@ describe("run command", () => {
         const result = await runCli(args);
 
         // THEN
-        expect(formatCmdResult(result)).toMatchInlineSnapshot(`
+        const snapshot = formatCmdResult(result);
+        expect(snapshot).toMatchInlineSnapshot(`
           "success: true
           exit_code: 0
           ----- stdout -----
@@ -56,7 +57,8 @@ describe("run command", () => {
         const result = await runCli(args);
 
         // THEN
-        expect(formatCmdResult(result)).toMatchInlineSnapshot(`
+        const snapshot = formatCmdResult(result);
+        expect(snapshot).toMatchInlineSnapshot(`
               "success: true
               exit_code: 0
               ----- stdout -----
@@ -92,7 +94,8 @@ describe("run command", () => {
         const result = await runCli(args);
 
         // THEN
-        expect(formatCmdResult(result)).toMatchInlineSnapshot(`
+        const snapshot = formatCmdResult(result);
+        expect(snapshot).toMatchInlineSnapshot(`
               "success: true
               exit_code: 0
               ----- stdout -----
@@ -121,7 +124,8 @@ describe("run command", () => {
         const result = await runCli(args);
 
         // THEN
-        expect(formatCmdResult(result)).toMatchInlineSnapshot(`
+        const snapshot = formatCmdResult(result);
+        expect(snapshot).toMatchInlineSnapshot(`
               "success: false
               exit_code: 1
               ----- stdout -----
@@ -141,7 +145,8 @@ describe("run command", () => {
         const result = await runCli(args);
 
         // THEN
-        expect(formatCmdResult(result)).toMatchInlineSnapshot(`
+        const snapshot = formatCmdResult(result);
+        expect(snapshot).toMatchInlineSnapshot(`
               "success: false
               exit_code: 1
               ----- stdout -----
@@ -168,7 +173,8 @@ describe("run command", () => {
         const result = await runCli(args);
 
         // THEN
-        expect(formatCmdResult(result)).toMatchInlineSnapshot(`
+        const snapshot = formatCmdResult(result);
+        expect(snapshot).toMatchInlineSnapshot(`
               "success: false
               exit_code: 1
               ----- stdout -----
@@ -188,7 +194,8 @@ describe("run command", () => {
         const result = await runCli(args);
 
         // THEN
-        expect(formatCmdResult(result)).toMatchInlineSnapshot(`
+        const snapshot = formatCmdResult(result);
+        expect(snapshot).toMatchInlineSnapshot(`
               "success: false
               exit_code: 1
               ----- stdout -----
