@@ -8,12 +8,13 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "check": "tsc -p tsconfig.json",
-    "ci": "biome ci src vitest.config.ts",
+    "ci": "biome ci src test vitest.*.ts",
     "dev": "tsx src/index.ts",
     "format": "biome format --write src test vitest.*.ts",
     "lint:fix": "biome check --write src test vitest.*.ts",
     "lint": "biome check src test vitest.*.ts",
-    "test": "vitest run",
+    "test": "vitest run --config vitest.config.ts",
+    "test:all": "npm run test && npm run test:e2e",
     "test:e2e": "vitest run --config vitest.e2e.config.ts"
   },
   "keywords": [],

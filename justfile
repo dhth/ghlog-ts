@@ -8,6 +8,7 @@ alias l := lint
 alias lf := lint-fix
 alias r := run
 alias t := test
+alias ta := test-all
 alias te := test-e2e
 alias us := update-snapshots
 
@@ -18,6 +19,7 @@ all:
     just check
     just lint
     just build
+    just test-all
 
 build:
     npm run build
@@ -42,6 +44,10 @@ test *ARGS:
 
 test-e2e *ARGS:
     npm run test:e2e -- {{ ARGS }}
+
+test-all:
+    just test
+    just test-e2e
 
 update-snapshots:
     npm run test:e2e -- -u
