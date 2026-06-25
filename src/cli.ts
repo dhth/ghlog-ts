@@ -1,6 +1,12 @@
 import { Command, Option } from "commander";
 import { handleRun } from "./commands/run.js";
 import { eventKinds } from "./domain/event.js";
+import {
+    defaultHtmlTemplate,
+    defaultOutputFormat,
+    htmlTemplates,
+    outputFormatKinds,
+} from "./output/format.js";
 
 export function buildCli(): Command {
     const program = new Command();
@@ -35,6 +41,11 @@ function buildRunCommand(): Command {
                 .default([]),
         )
         .addOption(
+            new Option("--html-template <template>", "HTML template to use")
+                .choices(htmlTemplates)
+                .default(defaultHtmlTemplate),
+        )
+        .addOption(
             new Option(
                 "-p, --include-private",
                 "Include private events when visible to the authenticated user",
@@ -48,8 +59,8 @@ function buildRunCommand(): Command {
         )
         .addOption(
             new Option("-f, --output-format <format>", "Output format to use")
-                .choices(["html", "markdown", "plain", "terminal"])
-                .default("terminal"),
+                .choices(outputFormatKinds)
+                .default(defaultOutputFormat),
         )
         .action(handleRun);
 }

@@ -151,8 +151,8 @@ export const eventKinds = [
     "delete",
     "issue_comment",
     "issues",
-    "pull_request",
     "pull_request_review",
+    "pull_request",
     "push",
     "release",
 ] as const;

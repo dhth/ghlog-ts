@@ -32,15 +32,17 @@ describe("run command", () => {
             -e, --event-type <event-type>  Filter by event type; repeat to include
                                            multiple types. Limit applies after filtering.
                                            [possible values: create, delete,
-                                           issue_comment, issues, pull_request,
-                                           pull_request_review, push, release] (default:
-                                           [])
+                                           issue_comment, issues, pull_request_review,
+                                           pull_request, push, release] (default: [])
+            --html-template <template>     HTML template to use (choices: "editorial",
+                                           "notebook", "terminal", "zine", default:
+                                           "terminal")
             -p, --include-private          Include private events when visible to the
                                            authenticated user (default: false)
             -l, --limit <number>           Maximum number of events to show (default: 20)
             -f, --output-format <format>   Output format to use (choices: "html",
                                            "markdown", "plain", "terminal", default:
-                                           "terminal")
+                                           "plain")
             -h, --help                     display help for command
 
           ----- stderr -----
@@ -59,20 +61,21 @@ describe("run command", () => {
         // THEN
         const snapshot = formatCmdResult(result);
         expect(snapshot).toMatchInlineSnapshot(`
-              "success: true
-              exit_code: 0
-              ----- stdout -----
-              command: run
+          "success: true
+          exit_code: 0
+          ----- stdout -----
+          command: run
 
-              - username       : username
-              - event types    : <not-provided>
-              - event limit    : 20
-              - include private: false
+          - username       : username
+          - event types    : <not-provided>
+          - event limit    : 20
+          - include private: false
+          - output format  : plain
 
-              ----- stderr -----
+          ----- stderr -----
 
-              "
-            `);
+          "
+        `);
     });
 
     it("works as expected for overridden flags", async () => {
@@ -96,20 +99,21 @@ describe("run command", () => {
         // THEN
         const snapshot = formatCmdResult(result);
         expect(snapshot).toMatchInlineSnapshot(`
-              "success: true
-              exit_code: 0
-              ----- stdout -----
-              command: run
+          "success: true
+          exit_code: 0
+          ----- stdout -----
+          command: run
 
-              - username       : username
-              - event types    : create, push
-              - event limit    : 50
-              - include private: true
+          - username       : username
+          - event types    : create, push
+          - event limit    : 50
+          - include private: true
+          - output format  : plain
 
-              ----- stderr -----
+          ----- stderr -----
 
-              "
-            `);
+          "
+        `);
     });
 
     //------------//
