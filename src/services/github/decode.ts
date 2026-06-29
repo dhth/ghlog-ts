@@ -12,12 +12,29 @@ const rawRepoSchema = z.object({
     url: z.string(),
 });
 
+const githubTimestampSchema = z
+    .string()
+    .datetime({ offset: true })
+    .transform((value, ctx) => {
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            ctx.addIssue({
+                code: "custom",
+                message: "invalid timestamp",
+            });
+            return z.NEVER;
+        }
+
+        return date;
+    });
+
 const rawEventSchema = z.object({
     id: z.string(),
     type: z.string().nullable(),
     repo: rawRepoSchema,
     payload: z.unknown(),
-    created_at: z.string(),
+    created_at: githubTimestampSchema,
 });
 
 const rawEventsSchema = z.array(rawEventSchema);

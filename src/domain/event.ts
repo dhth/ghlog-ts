@@ -141,7 +141,7 @@ export type Event = {
     id: string;
     repo: Repo;
     payload: EventPayload;
-    created_at: string;
+    created_at: Date;
 };
 
 export type EventVisibility = "public_only" | "include_private";

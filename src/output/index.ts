@@ -7,6 +7,7 @@ import { toEventPresentation } from "./presentation.js";
 
 export function render(
     events: Event[],
+    referenceTime: Date,
     format: OutputFormat,
     _username: Username,
     _eventVisibility: EventVisibility,
@@ -17,7 +18,7 @@ export function render(
         case "plain":
             return {
                 tag: "ok",
-                value: renderPlain(eventPresentations),
+                value: renderPlain(eventPresentations, referenceTime),
             };
         default:
             return {

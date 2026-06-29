@@ -89,8 +89,11 @@ export async function handleRun(username: string, options: RunOptions) {
         return;
     }
 
+    const now = new Date();
+
     const outputResult = render(
         events,
+        now,
         validatedOutputFormat,
         validatedUsername,
         eventVisibility,
