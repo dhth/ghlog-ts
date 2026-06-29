@@ -15,7 +15,7 @@ export type Fragment = {
 export type Color = "gray" | "blue" | "green" | "yellow" | "purple" | "red";
 
 export type EventPresentation = {
-    createdAt: string;
+    createdAt: Date;
     kind: EventKind;
     fragments: Fragment[];
 };
@@ -160,6 +160,30 @@ export function toEventPresentation(event: Event): EventPresentation {
                 ],
             };
     }
+}
+
+export function humanizedTime(time: Date, referenceTime: Date): string {
+    const durationMs = referenceTime.getTime() - time.getTime();
+    const seconds = Math.floor(durationMs / 1000);
+
+    if (seconds < 0) {
+        return "-";
+    }
+    if (seconds < 60) {
+        return "just now";
+    }
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) {
+        return `${minutes}m ago`;
+    }
+
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) {
+        return `${hours}h ago`;
+    }
+
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
 }
 
 function text(text: string): Fragment {
