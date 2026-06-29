@@ -9,7 +9,7 @@ export const outputFormatKinds = [
 
 export type OutputFormatKind = (typeof outputFormatKinds)[number];
 
-export const defaultOutputFormat: OutputFormatKind = "plain";
+export const defaultOutputFormat: OutputFormatKind = "terminal";
 
 function isValidOutputFormat(value: string): value is OutputFormatKind {
     return outputFormatKinds.some((format) => format === value);

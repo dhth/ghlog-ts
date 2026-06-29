@@ -192,6 +192,27 @@ function text(text: string): Fragment {
     };
 }
 
+export function eventColor(kind: EventKind): Color {
+    switch (kind) {
+        case "create":
+            return "green";
+        case "delete":
+            return "red";
+        case "issue_comment":
+            return "yellow";
+        case "issues":
+            return "yellow";
+        case "pull_request":
+            return "purple";
+        case "pull_request_review":
+            return "purple";
+        case "push":
+            return "blue";
+        case "release":
+            return "green";
+    }
+}
+
 function link(text: string, url: string): Fragment {
     return {
         text,

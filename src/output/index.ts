@@ -5,6 +5,7 @@ import type { OutputFormat } from "./format.js";
 import { renderMarkdown } from "./markdown.js";
 import { renderPlain } from "./plain.js";
 import { toEventPresentation } from "./presentation.js";
+import { renderTerminal } from "./terminal.js";
 
 export function render(
     events: Event[],
@@ -16,15 +17,20 @@ export function render(
     const eventPresentations = events.map(toEventPresentation);
 
     switch (format.kind) {
+        case "markdown":
+            return {
+                tag: "ok",
+                value: renderMarkdown(eventPresentations),
+            };
         case "plain":
             return {
                 tag: "ok",
                 value: renderPlain(eventPresentations, referenceTime),
             };
-        case "markdown":
+        case "terminal":
             return {
                 tag: "ok",
-                value: renderMarkdown(eventPresentations),
+                value: renderTerminal(eventPresentations, referenceTime),
             };
         default:
             return {
