@@ -42,7 +42,7 @@ describe("run command", () => {
             -l, --limit <number>           Maximum number of events to show (default: 20)
             -f, --output-format <format>   Output format to use (choices: "html",
                                            "markdown", "plain", "terminal", default:
-                                           "plain")
+                                           "terminal")
             -h, --help                     display help for command
 
           ----- stderr -----
@@ -70,7 +70,7 @@ describe("run command", () => {
           - event types    : <not-provided>
           - event limit    : 20
           - include private: false
-          - output format  : plain
+          - output format  : terminal
 
           ----- stderr -----
 
@@ -108,7 +108,7 @@ describe("run command", () => {
           - event types    : create, push
           - event limit    : 50
           - include private: true
-          - output format  : plain
+          - output format  : terminal
 
           ----- stderr -----
 
