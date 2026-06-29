@@ -2,6 +2,7 @@ import type { Event, EventVisibility } from "../domain/event.js";
 import type { Username } from "../domain/username.js";
 import type { Result } from "../result.js";
 import type { OutputFormat } from "./format.js";
+import { renderMarkdown } from "./markdown.js";
 import { renderPlain } from "./plain.js";
 import { toEventPresentation } from "./presentation.js";
 
@@ -19,6 +20,11 @@ export function render(
             return {
                 tag: "ok",
                 value: renderPlain(eventPresentations, referenceTime),
+            };
+        case "markdown":
+            return {
+                tag: "ok",
+                value: renderMarkdown(eventPresentations),
             };
         default:
             return {
