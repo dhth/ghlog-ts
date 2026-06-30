@@ -1,0 +1,195 @@
+export const templateNotebook = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔭</text></svg>">
+    <title>@{{username}}'s {{activityLabel}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf6ea;
+            --text: #2a261f;
+            --muted: #7c7468;
+            --accent: #c0392b;
+            --dot: #c8bfa9;
+            --rule: #c8bfa9;
+            --hi-text: #2a261f;
+            --event-push: #b3d4f0;
+            --event-create: #c8e6a0;
+            --event-delete: #f0b3b3;
+            --event-issues: #f5e08a;
+            --event-comment: #f5e08a;
+            --event-pull-request: #e0b3e8;
+            --event-pull-request-review: #e0b3e8;
+            --event-release: #c8e6a0;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1a1814;
+                --text: #f4ecd8;
+                --muted: #b0a690;
+                --accent: #ff8a6a;
+                --dot: #2e2a22;
+                --rule: #3a342a;
+                --hi-text: #1a1814;
+                --event-push: #6fa8d6;
+                --event-create: #9dc46a;
+                --event-delete: #e07b7b;
+                --event-issues: #e3c45a;
+                --event-comment: #e3c45a;
+                --event-pull-request: #c98ad6;
+                --event-pull-request-review: #c98ad6;
+                --event-release: #9dc46a;
+            }
+        }
+        * { box-sizing: border-box; }
+        html, body { background: var(--bg); }
+        body {
+            margin: 0;
+            color: var(--text);
+            font-family: "Newsreader", Georgia, serif;
+            font-size: 17px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            background-image:
+                radial-gradient(circle, var(--dot) 1px, transparent 1px);
+            background-size: 22px 22px;
+            background-position: 11px 11px;
+            min-height: 100vh;
+        }
+        a {
+            color: inherit;
+            text-decoration: underline;
+            text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 2px;
+        }
+        a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+        .page {
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        .head {
+            margin-bottom: 2rem;
+            transform: rotate(-0.7deg);
+        }
+        .head h1 {
+            margin: 0 0 0.25rem;
+            font-family: "Caveat", cursive;
+            font-weight: 700;
+            font-size: clamp(2.4rem, 6vw, 3.6rem);
+            line-height: 1;
+            color: var(--text);
+        }
+        .head h1 a { text-decoration: none; }
+        .head h1 .underline {
+            display: inline-block;
+            position: relative;
+        }
+        .head h1 .underline::after {
+            content: "";
+            position: absolute;
+            left: -2%;
+            right: -2%;
+            bottom: -0.1em;
+            height: 0.18em;
+            background: var(--accent);
+            opacity: 0.6;
+            border-radius: 50%;
+            transform: rotate(-1deg);
+        }
+        .head .when {
+            font-family: "Caveat", cursive;
+            font-size: 1.2rem;
+            color: var(--muted);
+        }
+
+        ul.event-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .event-item {
+            display: grid;
+            grid-template-columns: 5.5rem 7rem 1fr;
+            gap: 1rem;
+            padding: 0.55rem 0;
+            border-bottom: 1px dashed var(--rule);
+            align-items: baseline;
+        }
+        .event-item:last-child { border-bottom: none; }
+        .event-item .event-time {
+            font-family: "Caveat", cursive;
+            font-size: 1.05rem;
+            color: var(--muted);
+            line-height: 1.2;
+        }
+        .event-item .event-message {
+            font-size: 1.02rem;
+        }
+        .event-item .event-kind {
+            display: inline-block;
+            font-family: "Caveat", cursive;
+            font-size: 1.05rem;
+            padding: 0 0.35em;
+            border-radius: 3px;
+            transform: rotate(-1deg);
+            color: var(--hi-text);
+            justify-self: start;
+            align-self: center;
+        }
+        .event-push .event-kind { background: var(--event-push); }
+        .event-create .event-kind { background: var(--event-create); }
+        .event-delete .event-kind { background: var(--event-delete); }
+        .event-issues .event-kind { background: var(--event-issues); }
+        .event-comment .event-kind { background: var(--event-comment); }
+        .event-pull-request .event-kind { background: var(--event-pull-request); }
+        .event-pull-request-review .event-kind { background: var(--event-pull-request-review); }
+        .event-release .event-kind { background: var(--event-release); }
+
+        .footer {
+            margin-top: 2.5rem;
+            font-family: "Caveat", cursive;
+            font-size: 1.2rem;
+            color: var(--muted);
+            text-align: right;
+            transform: rotate(-2deg);
+            transform-origin: right;
+        }
+        .footer a { text-decoration-color: var(--accent); }
+
+        @media (max-width: 640px) {
+            .page { padding: 1.5rem 1rem 3rem; }
+            .event-item { grid-template-columns: 1fr; gap: 0.15rem; }
+        }    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="head">
+            <h1><a href="{{userUrl}}" target="_blank" rel="noopener noreferrer">@<span class="underline">{{username}}</span></a>'s {{activityLabel}}</h1>
+            <div class="when">{{timestamp}}</div>
+        </header>
+
+        <main>
+            <ul class="event-list">
+                {{#each events}}
+                <li class="event-item event-{{eventKind}}">
+                    <span class="event-time">{{timestamp}}</span>
+                    <span class="event-kind">{{eventKind}}</span>
+                    <span class="event-message">{{#each fragments}}{{#unless @first}} {{/unless}}{{#if url}}<a href="{{url}}" target="_blank" rel="noopener noreferrer"{{#if title}} title="{{title}}"{{/if}}>{{text}}</a>{{else}}{{text}}{{/if}}{{/each}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </main>
+
+        <div class="footer">built with <a href="{{branding.url}}" target="_blank" rel="noopener noreferrer">{{branding.toolName}}</a></div>
+    </div>
+</body>
+</html>`;
