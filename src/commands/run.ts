@@ -99,7 +99,9 @@ export async function handleRun(username: string, options: RunOptions) {
         eventVisibility,
     );
     if (outputResult.tag === "err") {
-        throw new Error(`couldn't render result: ${outputResult.error}`);
+        throw new Error("couldn't render result", {
+            cause: outputResult.error,
+        });
     }
 
     console.log(outputResult.value);

@@ -1,0 +1,202 @@
+export const templateTerminal = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔭</text></svg>">
+    <title>@{{username}}'s {{activityLabel}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f6f8fa;
+            --text: #1f2328;
+            --muted: #6e7781;
+            --prompt: #1a7f37;
+            --panel: #ffffff;
+            --panel-alt: #f6f8fa;
+            --border: #d0d7de;
+            --rule: #e8ebef;
+            --event-push: #0969da;
+            --event-create: #1a7f37;
+            --event-delete: #cf222e;
+            --event-issues: #9a6700;
+            --event-comment: #9a6700;
+            --event-pull-request: #8250df;
+            --event-pull-request-review: #8250df;
+            --event-release: #1a7f37;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #000205;
+                --text: #c9d1d9;
+                --muted: #6e7681;
+                --prompt: #7ee787;
+                --panel: #161c26;
+                --panel-alt: #1c232f;
+                --border: #2d3744;
+                --rule: #232b37;
+                --event-push: #79c0ff;
+                --event-create: #7ee787;
+                --event-delete: #ff7b72;
+                --event-issues: #f0b72f;
+                --event-comment: #f0b72f;
+                --event-pull-request: #d2a8ff;
+                --event-pull-request-review: #d2a8ff;
+                --event-release: #56d364;
+            }
+        }
+        * { box-sizing: border-box; }
+        html, body { background: var(--bg); }
+        body {
+            margin: 0;
+            font-family: "JetBrains Mono", ui-monospace, monospace;
+            color: var(--text);
+            font-size: 13px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            padding: 1.5rem 1rem 3rem;
+        }
+        a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 2px; }
+        a:hover { text-decoration-color: currentColor; }
+        .page {
+            max-width: 1040px;
+            margin: 0 auto;
+        }
+        .term {
+            border: 1px solid var(--border);
+            background: var(--panel);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px -20px rgba(0,0,0,0.6);
+        }
+        .term-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 0.9rem;
+            border-bottom: 1px solid var(--border);
+            background: color-mix(in srgb, var(--panel) 70%, var(--bg));
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot.r { background: #ff5f57; }
+        .dot.y { background: #febc2e; }
+        .dot.g { background: #28c840; }
+        .term-title {
+            flex: 1;
+            text-align: center;
+            color: var(--text);
+            font-size: 12px;
+            margin-right: 42px;
+        }
+        .term-body {
+            padding: 1.1rem 1.25rem 1.5rem;
+        }
+        .prompt-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            color: var(--muted);
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+        .prompt-line .arrow { color: var(--prompt); margin-right: 0.4em; }
+        .prompt-line .cmd { color: var(--text); }
+        .prompt-line .gen { color: var(--muted); white-space: nowrap; }
+
+        .col-labels {
+            display: grid;
+            grid-template-columns: 12rem 9rem 1fr;
+            gap: 0;
+            padding: 0.55rem 0.85rem;
+            color: var(--muted);
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+        }
+        ul.event-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .event-item {
+            display: grid;
+            grid-template-columns: 12rem 9rem 1fr;
+            gap: 0;
+            padding: 0.7rem 0.85rem;
+            border-bottom: 1px solid var(--rule);
+            align-items: baseline;
+        }
+        .event-item:last-child { border-bottom: none; }
+        .event-item:nth-child(odd) { background: var(--panel-alt); }
+        .event-item .event-time { color: var(--muted); white-space: nowrap; }
+        .event-item .event-kind {
+            text-transform: lowercase;
+        }
+        .event-push          .event-kind { color: var(--event-push); }
+        .event-create        .event-kind { color: var(--event-create); }
+        .event-delete        .event-kind { color: var(--event-delete); }
+        .event-issues        .event-kind { color: var(--event-issues); }
+        .event-comment .event-kind { color: var(--event-comment); }
+        .event-pull-request  .event-kind { color: var(--event-pull-request); }
+        .event-pull-request-review .event-kind { color: var(--event-pull-request-review); }
+        .event-release       .event-kind { color: var(--event-release); }
+        .event-item .event-message {
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: var(--text);
+        }
+        .footer {
+            margin-top: 1rem;
+            color: var(--muted);
+            font-size: 11px;
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 4px;
+        }
+        @media (max-width: 720px) {
+            body { font-size: 12px; padding: 1rem 0.5rem 2rem; }
+            .col-labels { display: none; }
+            .event-item { grid-template-columns: 1fr; gap: 0.15rem; padding: 0.7rem 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="term">
+            <div class="term-bar">
+                <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                <span class="term-title"><a href="{{userUrl}}" target="_blank" rel="noopener noreferrer">@{{username}}</a>'s {{activityLabel}}</span>
+            </div>
+            <div class="term-body">
+                <div class="prompt-line">
+                    <span><span class="arrow">$</span><span class="cmd">{{branding.toolName}} run {{username}}</span></span>
+                    <span class="gen"># {{timestamp}}</span>
+                </div>
+                <div class="col-labels">
+                    <span>Time</span>
+                    <span>Kind</span>
+                    <span>Detail</span>
+                </div>
+                <ul class="event-list">
+                    {{#each events}}
+                    <li class="event-item event-{{eventKind}}">
+                        <span class="event-time">{{timestamp}}</span>
+                        <span class="event-kind">{{eventKind}}</span>
+                        <span class="event-message">{{#each fragments}}{{#unless @first}} {{/unless}}{{#if url}}<a href="{{url}}" target="_blank" rel="noopener noreferrer"{{#if title}} title="{{title}}"{{/if}}>{{text}}</a>{{else}}{{text}}{{/if}}{{/each}}</span>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            <span>built with <a href="{{branding.url}}" target="_blank" rel="noopener noreferrer">{{branding.toolName}}</a></span>
+        </div>
+    </div>
+</body>
+</html>`;

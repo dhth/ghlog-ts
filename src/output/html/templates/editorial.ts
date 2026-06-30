@@ -1,0 +1,180 @@
+export const templateEditorial = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔭</text></svg>">
+    <title>@{{username}}'s {{activityLabel}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f4f1;
+            --text: #111111;
+            --muted: #6b6b6b;
+            --accent: #e63946;
+            --rule: #111111;
+            --event-push: #1f6feb;
+            --event-create: #1a7f37;
+            --event-delete: #cf222e;
+            --event-issues: #b08800;
+            --event-comment: #b08800;
+            --event-pull-request: #8250df;
+            --event-pull-request-review: #8250df;
+            --event-release: #1a7f37;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #111111;
+                --text: #f4f4f1;
+                --muted: #8a8a85;
+                --accent: #ff5566;
+                --rule: #f4f4f1;
+                --event-push: #79c0ff;
+                --event-create: #7ee787;
+                --event-delete: #ff7b72;
+                --event-issues: #f0b72f;
+                --event-comment: #f0b72f;
+                --event-pull-request: #d2a8ff;
+                --event-pull-request-review: #d2a8ff;
+                --event-release: #7ee787;
+            }
+        }
+        * { box-sizing: border-box; }
+        html, body { background: var(--bg); }
+        body {
+            margin: 0;
+            color: var(--text);
+            font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            font-feature-settings: "tnum" 1, "cv11" 1;
+        }
+        a {
+            color: inherit;
+            text-decoration: underline;
+            text-decoration-color: color-mix(in srgb, currentColor 30%, transparent);
+            text-underline-offset: 3px;
+        }
+        a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+        .page {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 3rem;
+        }
+
+        .head {
+            border-bottom: 2px solid var(--rule);
+            padding-bottom: 0.85rem;
+            margin-bottom: 1.75rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: end;
+            gap: 1rem;
+        }
+        .head h1 {
+            margin: 0;
+            font-weight: 900;
+            font-size: clamp(1.5rem, 3.6vw, 2.4rem);
+            line-height: 1;
+            letter-spacing: -0.03em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .head h1 a { text-decoration: none; color: var(--accent); }
+        .head h1 a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+        .head .meta {
+            font-size: 0.7rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        ul.event-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .event-item {
+            display: grid;
+            grid-template-columns: 7rem 8rem 1fr;
+            gap: 1.25rem;
+            padding: 0.55rem 0;
+            border-bottom: 1px solid color-mix(in srgb, var(--rule) 15%, transparent);
+            align-items: baseline;
+        }
+        .event-item:last-child { border-bottom: none; }
+        .event-item .event-time {
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .event-item .event-message {
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+        .event-kind {
+            display: inline-block;
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--accent);
+            border-left: 3px solid currentColor;
+            padding-left: 0.5rem;
+        }
+        .event-push          .event-kind { color: var(--event-push); }
+        .event-create        .event-kind { color: var(--event-create); }
+        .event-delete        .event-kind { color: var(--event-delete); }
+        .event-issues        .event-kind { color: var(--event-issues); }
+        .event-comment .event-kind { color: var(--event-comment); }
+        .event-pull-request  .event-kind { color: var(--event-pull-request); }
+        .event-pull-request-review .event-kind { color: var(--event-pull-request-review); }
+        .event-release       .event-kind { color: var(--event-release); }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid color-mix(in srgb, var(--rule) 25%, transparent);
+            font-size: 0.78rem;
+            color: var(--muted);
+            text-align: right;
+        }
+        .footer a { color: var(--accent); }
+
+        @media (max-width: 640px) {
+            .page { padding: 1.5rem 1.1rem 2rem; }
+            .head { grid-template-columns: 1fr; gap: 0.4rem; }
+            .event-item { grid-template-columns: 1fr; gap: 0.2rem; }
+            .event-kind { border-left: none; padding-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="head">
+            <h1><a href="{{userUrl}}" target="_blank" rel="noopener noreferrer">@{{username}}</a>'s {{activityLabel}}</h1>
+            <div class="meta">{{timestamp}}</div>
+        </header>
+        <main>
+            <ul class="event-list">
+                {{#each events}}
+                <li class="event-item event-{{eventKind}}">
+                    <span class="event-time">{{timestamp}}</span>
+                    <span class="event-kind">{{eventKind}}</span>
+                    <span class="event-message">{{#each fragments}}{{#unless @first}} {{/unless}}{{#if url}}<a href="{{url}}" target="_blank" rel="noopener noreferrer"{{#if title}} title="{{title}}"{{/if}}>{{text}}</a>{{else}}{{text}}{{/if}}{{/each}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </main>
+        <div class="footer">built with <a href="{{branding.url}}" target="_blank" rel="noopener noreferrer">{{branding.toolName}}</a></div>
+    </div>
+</body>
+</html>`;

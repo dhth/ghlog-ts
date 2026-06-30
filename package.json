@@ -7,6 +7,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "postbuild": "chmod +x dist/index.js",
     "check": "tsc -p tsconfig.json",
     "ci": "biome ci src test vitest.*.ts",
     "dev": "tsx src/index.ts",
@@ -30,6 +31,7 @@
   },
   "dependencies": {
     "commander": "^15.0.0",
+    "handlebars": "^4.7.9",
     "zod": "^4.4.3"
   }
 }

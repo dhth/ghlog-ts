@@ -1,0 +1,211 @@
+export const templateZine = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔭</text></svg>">
+    <title>@{{username}}'s {{activityLabel}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f7f3e9;
+            --text: #161616;
+            --muted: #5c5c5c;
+            --accent: #ff2e63;
+            --accent-2: #08d9d6;
+            --paper-line: #161616;
+            --name-bg: #161616;
+            --name-fg: #f7f3e9;
+            --event-push: #08d9d6;
+            --event-create: #c0f068;
+            --event-delete: #ff8a9b;
+            --event-issues: #ffd23f;
+            --event-comment: #ffd23f;
+            --event-pull-request: #b288ff;
+            --event-pull-request-review: #b288ff;
+            --event-release: #c0f068;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #161616;
+                --text: #f7f3e9;
+                --muted: #9a9a9a;
+                --accent: #ff2e63;
+                --accent-2: #08d9d6;
+                --paper-line: #f7f3e9;
+                --name-bg: #08d9d6;
+                --name-fg: #161616;
+                --event-push: #08d9d6;
+                --event-create: #c0f068;
+                --event-delete: #ff8a9b;
+                --event-issues: #ffd23f;
+                --event-comment: #ffd23f;
+                --event-pull-request: #b288ff;
+                --event-pull-request-review: #b288ff;
+                --event-release: #c0f068;
+            }
+        }
+        * { box-sizing: border-box; }
+        html, body { background: var(--bg); }
+        body {
+            margin: 0;
+            color: var(--text);
+            font-family: "Archivo", sans-serif;
+            font-size: 14px;
+            line-height: 1.45;
+            -webkit-font-smoothing: antialiased;
+        }
+        a {
+            color: inherit;
+            text-decoration: underline;
+            text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 2px;
+        }
+        a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+        .page {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 1.5rem 1.25rem 3rem;
+            position: relative;
+        }
+
+        .head {
+            position: relative;
+            padding: 1.5rem 0 1.25rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--paper-line);
+        }
+        .head h1 {
+            margin: 0;
+            font-family: "Archivo Black", sans-serif;
+            font-weight: 900;
+            font-size: clamp(2rem, 5.5vw, 3.6rem);
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            color: var(--text);
+        }
+        .head h1 a { text-decoration: none; }
+        .head h1 .at {
+            display: inline-block;
+            color: var(--accent);
+            transform: rotate(-6deg);
+            margin-right: -0.05em;
+        }
+        .head h1 .name {
+            display: inline-block;
+            background: var(--name-bg);
+            color: var(--name-fg);
+            padding: 0 0.1em 0.05em;
+            margin-left: 0.05em;
+        }
+        .head .meta {
+            margin-top: 0.6rem;
+            text-align: right;
+            font-family: "DM Mono", monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+        }
+
+        ul.event-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .event-item {
+            display: grid;
+            grid-template-columns: 8.5rem 1fr;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px dashed color-mix(in srgb, var(--paper-line) 35%, transparent);
+            align-items: baseline;
+        }
+        .event-item:last-child { border-bottom: none; }
+        .event-kind {
+            font-family: "DM Mono", monospace;
+            font-weight: 500;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.22em 0.6em;
+            border: 1.5px solid #161616;
+            background: var(--bg);
+            color: #161616;
+            white-space: nowrap;
+            justify-self: start;
+            align-self: center;
+        }
+        .event-push          .event-kind { background: var(--event-push); }
+        .event-create        .event-kind { background: var(--event-create); }
+        .event-delete        .event-kind { background: var(--event-delete); }
+        .event-issues        .event-kind { background: var(--event-issues); }
+        .event-comment .event-kind { background: var(--event-comment); }
+        .event-pull-request  .event-kind { background: var(--event-pull-request); }
+        .event-pull-request-review .event-kind { background: var(--event-pull-request-review); }
+        .event-release       .event-kind { background: var(--event-release); }
+
+        .body {
+            min-width: 0;
+        }
+        .body .event-time {
+            font-family: "DM Mono", monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+        .body .event-message {
+            font-size: 1rem;
+            word-break: break-word;
+            font-weight: 500;
+        }
+
+        .footer {
+            margin-top: 1.5rem;
+            padding-top: 0.85rem;
+            border-top: 1px dashed color-mix(in srgb, var(--paper-line) 35%, transparent);
+            text-align: right;
+            font-family: "DM Mono", monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.04em;
+            color: var(--muted);
+        }
+        .footer a { color: var(--accent); }
+
+        @media (max-width: 640px) {
+            .page { padding: 1rem 0.85rem 2rem; }
+            .event-item { grid-template-columns: 1fr; gap: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="head">
+            <h1><a href="{{userUrl}}" target="_blank" rel="noopener noreferrer"><span class="at">@</span><span class="name">{{username}}</span></a>'s {{activityLabel}}</h1>
+            <div class="meta">{{timestamp}}</div>
+        </header>
+
+        <main>
+            <ul class="event-list">
+                {{#each events}}
+                <li class="event-item event-{{eventKind}}">
+                    <span class="event-kind">{{eventKind}}</span>
+                    <div class="body">
+                        <span class="event-time">{{timestamp}}</span>
+                        <div class="event-message">{{#each fragments}}{{#unless @first}} {{/unless}}{{#if url}}<a href="{{url}}" target="_blank" rel="noopener noreferrer"{{#if title}} title="{{title}}"{{/if}}>{{text}}</a>{{else}}{{text}}{{/if}}{{/each}}</div>
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+        </main>
+
+        <div class="footer">built with <a href="{{branding.url}}" target="_blank" rel="noopener noreferrer">{{branding.toolName}}</a></div>
+    </div>
+</body>
+</html>`;
